@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Check</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Health Check</h1>
+        </div>
+        
+        <div class="content">
+            <div class="card success">
+                <h2>✅ Status: <span th:text="${status}">OK</span></h2>
+            </div>
+            
+            <div class="card info">
+                <h3>📋 상세 정보</h3>
+                <ul>
+                    <li><strong>체크 시간:</strong> <span th:text="${timestamp}"></span></li>
+                    <li><strong>애플리케이션:</strong> 정상 동작 중</li>
+                    <li><strong>서비스:</strong> Available</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <a href="/" class="button">홈으로 돌아가기</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 EC2 Test Application</p>
+        </div>
+    </div>
+</body>
+</html>

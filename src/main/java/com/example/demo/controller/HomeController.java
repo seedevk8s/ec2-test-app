@@ -1,0 +1,28 @@
+package com.example.demo.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("message", "EC2 배포 테스트 성공! 🚀");
+        model.addAttribute("currentTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        model.addAttribute("serverInfo", System.getProperty("os.name") + " / Java " + System.getProperty("java.version"));
+        return "index";
+    }
+
+    @GetMapping("/health")
+    public String health(Model model) {
+        model.addAttribute("status", "OK");
+        model.addAttribute("timestamp", LocalDateTime.now());
+        return "health";
+    }
+
+}
