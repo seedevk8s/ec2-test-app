@@ -9,20 +9,22 @@ spring:
   
   # Thymeleaf Configuration
   thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
+    cache: false                          # 개발 시 HTML 수정 후 즉시 반영 (운영: true)
+    prefix: classpath:/templates/         # 템플릿 파일 위치 (컨트롤러에서 파일명만 반환 가능)
+    suffix: .html                         # 템플릿 확장자 자동 추가 (index → index.html)
+    encoding: UTF-8                       # 한글 깨짐 방지
   
-  # Jackson 타임존 설정
+  # Jackson: JSON 변환 라이브러리의 타임존 설정 (REST API 응답 시 한국 시간 사용)
   jackson:
     time-zone: Asia/Seoul
 
 # Logging Configuration
 logging:
   level:
-    root: INFO
-    com.example.demo: DEBUG
+    root: INFO                            # 전체 애플리케이션 로그 레벨 (ERROR, WARN, INFO, DEBUG, TRACE)
+    com.example.demo: DEBUG               # 프로젝트 패키지는 상세 로그 출력
   pattern:
+    # 콘솔 로그 형식: %d(날짜시간) - %msg(메시지) %n(줄바꿈)
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    # 파일 로그 형식: %d(날짜시간) [%thread(스레드명)] %-5level(로그레벨 5자리) %logger{36}(로거명 최대36자) - %msg(메시지) %n(줄바꿈)
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
