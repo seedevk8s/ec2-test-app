@@ -13,6 +13,10 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
+  
+  # Jackson 타임존 설정
+  jackson:
+    time-zone: Asia/Seoul
 
 # Logging Configuration
 logging:
