@@ -25,6 +25,23 @@
                     <li><strong>애플리케이션:</strong> EC2 Test App v1.0.0</li>
                 </ul>
             </div>
+
+            <div class="card info">
+                <h3>💾 데이터베이스 연결</h3>
+                <ul>
+                    <li><strong>상태:</strong> <span th:text="${dbStatus}"></span></li>
+                    <li><strong>DB:</strong> <span th:text="${dbName}"></span></li>
+                    <li><strong>URL:</strong> <span th:text="${dbUrl}" style="font-size: 0.85em; word-break: break-all;"></span></li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>📝 게시글 DB 테스트</h3>
+                <button onclick="loadBoards()" class="button">게시글 불러오기 (/boards API 호출)</button>
+                <div id="board-list" style="margin-top: 20px;">
+                    <p style="color: #666;">버튼을 클릭하면 DB에서 데이터를 불러옵니다.</p>
+                </div>
+            </div>
             
             <div class="card">
                 <h3>✅ 동작 확인</h3>
@@ -37,5 +54,43 @@
             <p>© 2025 EC2 Test Application | Spring Boot 3.2.0</p>
         </div>
     </div>
+
+    <script>
+        function loadBoards() {
+            const boardList = document.getElementById('board-list');
+            boardList.innerHTML = '<p>⏳ 로딩 중...</p>';
+            
+            fetch('/boards')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.length === 0) {
+                        boardList.innerHTML = '<p>📭 게시글이 없습니다.</p>';
+                    } else {
+                        let html = '<p style="color: #28a745; font-weight: bold;">✅ DB 연동 성공! 총 ' + data.length + '개의 게시글</p>';
+                        html += '<div style="max-height: 400px; overflow-y: auto;">';
+                        data.forEach((board, index) => {
+                            html += '<div style="border: 1px solid #ddd; padding: 12px; margin: 10px 0; border-radius: 5px; background: #f8f9fa;">';
+                            html += '<div style="color: #666; font-size: 0.9em;">게시글 #' + (index + 1) + ' (ID: ' + board.id + ')</div>';
+                            html += '<div style="font-weight: bold; margin: 5px 0;">📌 ' + board.title + '</div>';
+                            html += '<div style="color: #555;">' + board.content + '</div>';
+                            if (board.author) {
+                                html += '<div style="color: #888; font-size: 0.9em; margin-top: 5px;">👤 ' + board.author + '</div>';
+                            }
+                            html += '</div>';
+                        });
+                        html += '</div>';
+                        boardList.innerHTML = html;
+                    }
+                })
+                .catch(error => {
+                    boardList.innerHTML = '<p style="color: red;">❌ 에러 발생: ' + error.message + '</p>';
+                });
+        }
+    </script>
 </body>
 </html>

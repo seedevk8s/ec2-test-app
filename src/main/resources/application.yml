@@ -2,8 +2,22 @@
 server:
   port: 8080
 
-# Spring Configuration
 spring:
+  datasource:
+    url: jdbc:mysql://library-db.cpgm666m0izc.ap-northeast-2.rds.amazonaws.com:3306/library # RDS 인스턴스 엔드포인>트
+    username: admin # RDS 마스터 사용자 이름
+    password: 12345678 # RDS 마스터 암호
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update                               # 기존 테이블 유지하고 변경사항만 업데이트
+    show-sql: true                                   # 실행되는 SQL 쿼리 콘솔 출력
+    properties:
+      hibernate:
+        format_sql: true                             # SQL 쿼리 포맷팅해서 출력 (읽기 쉽게)
+        dialect: org.hibernate.dialect.MySQLDialect  # MySQL 방언 설정
+
+# Spring Configuration
   application:
     name: ec2-test-app
   
@@ -21,10 +35,10 @@ spring:
 # Logging Configuration
 logging:
   level:
-    root: INFO                            # 전체 애플리케이션 로그 레벨 (ERROR, WARN, INFO, DEBUG, TRACE)
-    com.example.demo: DEBUG               # 프로젝트 패키지는 상세 로그 출력
+    root: INFO                                       # 전체 애플리케이션 로그 레벨
+    com.example.demo: DEBUG                          # 프로젝트 패키지는 상세 로그 출력
+    org.hibernate.SQL: DEBUG                         # Hibernate SQL 로그
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # 쿼리 파라미터 값 로그
   pattern:
-    # 콘솔 로그 형식: %d(날짜시간) - %msg(메시지) %n(줄바꿈)
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-    # 파일 로그 형식: %d(날짜시간) [%thread(스레드명)] %-5level(로그레벨 5자리) %logger{36}(로거명 최대36자) - %msg(메시지) %n(줄바꿈)
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
